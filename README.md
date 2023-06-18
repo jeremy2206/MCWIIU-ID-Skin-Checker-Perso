@@ -1,6 +1,6 @@
 # MCWIIU ID Skin-Checker (Personal)
 - Made by Jerem2206
-- Country Language FR
+- Country Language EN
 - Personal use for [My MC WiiU Site](https://github.com/jeremy2206/MC-WiiU-Mod-Site)
 ---
 ## What does it add? 
