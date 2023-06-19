@@ -9,35 +9,36 @@ import requests
 from tkinter.scrolledtext import ScrolledText
 import os
 
-
 # Create App
 SkinIDApp = tk.Tk()
 SkinIDApp.geometry("350x450")
 SkinIDApp.title("MC WiiU Skin ID Checker")
-icon_path = os.path.abspath("assets/icon.ico")
-SkinIDApp.iconbitmap(icon_path)
+IconPath = os.path.abspath("assets/icon.ico")
+SkinIDApp.iconbitmap(IconPath)
 
 # Disable window resizing
 SkinIDApp.resizable(False, False)
 
 # Load images
-youtube_path = os.path.abspath("assets/youtube.png")
-YoutubeImage = Image.open(youtube_path)
+youtubeImagePath = os.path.abspath("assets/youtube.png")
+YoutubeImage = Image.open(youtubeImagePath)
 YoutubeImageSize = YoutubeImage.resize((23, 20), Image.LANCZOS)
 YoutubePhotoImage = ImageTk.PhotoImage(YoutubeImageSize)
 
-discord_path = os.path.abspath("assets/discord.png")
-DiscordImage = Image.open(discord_path)
+discordImagePath = os.path.abspath("assets/discord.png")
+DiscordImage = Image.open(discordImagePath)
 DiscordImageSize = DiscordImage.resize((23, 20), Image.LANCZOS)
 DiscordPhotoImage = ImageTk.PhotoImage(DiscordImageSize)
 
-github_path = os.path.abspath("assets/github.png")
-GitHubImage = Image.open(github_path)
+githubImagePath = os.path.abspath("assets/github.png")
+GitHubImage = Image.open(githubImagePath)
 GitHubImageSize = GitHubImage.resize((23, 20), Image.LANCZOS)
 GitHubPhotoImage = ImageTk.PhotoImage(GitHubImageSize)
 
 # Load Font 
 FontLuckiestGuy = os.path.abspath("assets/LuckiestGuy-Regular.ttf")
+FontMojangles = os.path.abspath("assets/Mojangles.ttf")
+
 
 # ------------------------------------------
 
@@ -60,64 +61,70 @@ BorderBackgroundYoutubeDiscord = tk.Label(SkinIDApp, bg="#000000")
 BorderBackgroundYoutubeDiscord.place(x=0, y=419, width=350, height=2)
 BorderBackgroundYoutubeDiscord.lift()
 
+
 # ------------------------------------------
 
-def send_to_discord():
-    webhook_url = "something"
-    input_text = input_entry.get()
-    # Vérifier si le message contient exactement 8 chiffres
-    if input_text.isdigit() and len(input_text) == 8:
-        # Vérifier si le nombre est déjà dans le fichier
+#   **--Check Number and Sent--**
+
+def CheckID():
+    WebhookUrl = "something"
+    TextInput = EntryInput.get()
+    # Check if message is =8 number
+    if TextInput.isdigit() and len(TextInput) == 8:
+        # Check if number is in file
         with open('fichier.txt', 'r') as f:
-            numeros = f.readlines()
-        if input_text+'\n' in numeros:
-            console_text.insert(tk.INSERT, "ERROR : The number already exists in the database.\n")
-            console_text.insert(tk.INSERT, "------------------------------\n")
+            Numbers = f.readlines()
+        if TextInput+'\n' in Numbers:
+            TextConsole.insert(tk.INSERT, "ERROR : The number already    exists in the database.\n")
+            TextConsole.insert(tk.INSERT, "------------------------------\n")
         else:
-            # Ajouter le nombre à la fin du fichier
+            # Add number to file
             with open('fichier.txt', 'a') as f:
-                f.write(input_text+'\n')
-            console_text.insert(tk.INSERT, "The number is correct.\n")
-            # Envoyer le message à Discord
+                f.write(TextInput+'\n')
+            TextConsole.insert(tk.INSERT, "The number is correct.\n")
+            # Send Message to discord Webhook
             data = {
-                "content": input_text
+                "content": TextInput
             }
-            response = requests.post(webhook_url, json=data)
+            response = requests.post(WebhookUrl, json=data)
             if response.status_code == 204:
-                console_text.insert(tk.INSERT, "Message validated and sent : {}\n".format(input_text))
-                console_text.insert(tk.INSERT, "------------------------------\n")
+                TextConsole.insert(tk.INSERT, "Message validated and sent :  {}\n".format(TextInput))
+                TextConsole.insert(tk.INSERT, "------------------------------\n")
             else:
-                console_text.insert(tk.INSERT, "ERROR : connection not established.\n")
-                console_text.insert(tk.INSERT, "------------------------------\n")
+                TextConsole.insert(tk.INSERT, "ERROR : connection not established.\n")
+                TextConsole.insert(tk.INSERT, "------------------------------\n")
     else:
-        console_text.insert(tk.INSERT, "ERROR : enter an 8-digit message.\n")
-        console_text.insert(tk.INSERT, "------------------------------\n")
+        TextConsole.insert(tk.INSERT, "ERROR : enter an 8-digit      number.\n")
+        TextConsole.insert(tk.INSERT, "------------------------------\n")
 
-    # Faire défiler automatiquement vers le bas
-    console_text.see(tk.END)
+    # Automatically down
+    TextConsole.see(tk.END)
 
-def validate_input(char):
-    # Vérifier si le caractère est un chiffre
+def ValidateInput(char):
+    # Number ?
     if char.isdigit():
         return True
     else:
         return False
 
-# Zone de texte
-validate_input_func = SkinIDApp.register(validate_input)
-input_entry = tk.Entry(SkinIDApp, width=15, font=("Arial", 12), validate="key", validatecommand=(validate_input_func, '%S'))
-input_entry.place(x=100, y=100)
-input_entry.configure(relief="solid", bd=1)
+# Text Zone Entry Input
+ValidateInputFunction = SkinIDApp.register(ValidateInput)
+EntryInput = tk.Entry(SkinIDApp, width=15, font=("Arial", 12), validate="key", validatecommand=(ValidateInputFunction, '%S'))
+EntryInput.place(x=105.5, y=100)
+EntryInput.configure(relief="solid", bd=2)
 
-# Bouton Valider
-validate_button = tk.Button(SkinIDApp, text="Validate", command=send_to_discord)
-validate_button.place(x=140, y=150)
+# Validate Button
+ValidateButton = tk.Button(SkinIDApp, text="Validate", command=CheckID, width=14, height=1)
+ValidateButton.place(x=121, y=135)
+ValidateButton.configure(relief="solid", bd=2)
 
-# Console
-console_text = ScrolledText(SkinIDApp, width=30, height=10)
-console_text.place(x=50, y=230)
-console_text.insert(tk.INSERT, "Version : 1.0.0 - Check if any updates have been made.\n")
-console_text.insert(tk.INSERT, "------------------------------\n")
+# Console Text
+TextConsole = ScrolledText(SkinIDApp, width=30, height=10)
+TextConsole.place(x=44.5, y=208)
+TextConsole.insert(tk.INSERT, "Version : 1.0.01 - Check if   any updates have been made.\n")
+TextConsole.insert(tk.INSERT, "------------------------------\n")
+TextConsole.configure(relief="solid", bd=2)
+
 
 # ------------------------------------------
 
@@ -147,6 +154,7 @@ TitleAppImagetk = ImageTk.PhotoImage(TitleAppImage)
 # Show Image
 TitleApp = tk.Label(SkinIDApp, image=TitleAppImagetk, bg="#585858")
 TitleApp.place(x=0, y=0)
+
 
 # ------------------------------------------
 
@@ -178,6 +186,7 @@ YoutubeIMG.bind("<Enter>", YoutubeShowText)
 YoutubeIMG.bind("<Leave>", YoutubeHideText)
 YoutubeIMG.bind("<Button-1>", YoutubeLink)
 
+
 # ------------------------------------------
 
 #   **--Discord Button--**
@@ -202,6 +211,7 @@ def DiscordHideText(event):
 # Bind events
 DiscordIMG.bind("<Enter>", DiscordShowText)
 DiscordIMG.bind("<Leave>", DiscordHideText)
+
 
 # ------------------------------------------
 
@@ -232,6 +242,7 @@ def GitHubLink(event):
 GitHubIMG.bind("<Enter>", GitHubShowText)
 GitHubIMG.bind("<Leave>", GitHubHideText)
 GitHubIMG.bind("<Button-1>", GitHubLink)
+
 
 # ------------------------------------------
 
