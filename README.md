@@ -2,6 +2,7 @@
 - Made by Jerem2206
 - Country Language EN
 - Personal use for [My MC WiiU Site](https://github.com/jeremy2206/MC-WiiU-Mod-Site)
+- Tested on Windows 10 & 11
 ---
 ## What does it add? 
 Test your skin id of your Minecraft legacy(WiiU...) skin pack if you have the same id
