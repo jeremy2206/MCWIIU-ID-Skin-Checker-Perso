@@ -67,19 +67,19 @@ BorderBackgroundYoutubeDiscord.lift()
 #   **--Check Number and Sent--**
 
 def CheckID():
-    WebhookUrl = "something"
+    WebhookUrl = "a_webhook_url"
     TextInput = EntryInput.get()
     # Check if message is =8 number
     if TextInput.isdigit() and len(TextInput) == 8:
         # Check if number is in file
-        with open('fichier.txt', 'r') as f:
+        with open('data', 'r') as f:
             Numbers = f.readlines()
         if TextInput+'\n' in Numbers:
             TextConsole.insert(tk.INSERT, "ERROR : The number already    exists in the database.\n")
             TextConsole.insert(tk.INSERT, "------------------------------\n")
         else:
             # Add number to file
-            with open('fichier.txt', 'a') as f:
+            with open('data', 'a') as f:
                 f.write(TextInput+'\n')
             TextConsole.insert(tk.INSERT, "The number is correct.\n")
             # Send Message to discord Webhook
@@ -121,7 +121,7 @@ ValidateButton.configure(relief="solid", bd=2)
 # Console Text
 TextConsole = ScrolledText(SkinIDApp, width=30, height=10)
 TextConsole.place(x=44.5, y=208)
-TextConsole.insert(tk.INSERT, "Version : 1.0.03 - Check if   any updates have been made.\n")
+TextConsole.insert(tk.INSERT, "Version : 1.0.04 - Check if   any updates have been made.\n")
 TextConsole.insert(tk.INSERT, "------------------------------\n")
 TextConsole.configure(relief="solid", bd=2)
 
