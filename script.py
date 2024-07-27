@@ -121,7 +121,7 @@ ValidateButton.configure(relief="solid", bd=2)
 # Console Text
 TextConsole = ScrolledText(SkinIDApp, width=30, height=10)
 TextConsole.place(x=44.5, y=208)
-TextConsole.insert(tk.INSERT, "Version : 1.0.04 - Check if   any updates have been made.\n")
+TextConsole.insert(tk.INSERT, "Version : 1.0.05 - Check if   any updates have been made.\n")
 TextConsole.insert(tk.INSERT, "------------------------------\n")
 TextConsole.configure(relief="solid", bd=2)
 
